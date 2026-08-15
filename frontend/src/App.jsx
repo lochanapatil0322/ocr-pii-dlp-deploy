@@ -6,18 +6,18 @@ import Sidebar from "./components/layout/Sidebar";
 import Navbar from "./components/layout/Navbar";
 
 import Login from "./pages/Login/Login";
-import Dashboard from "./pages/Dashboard/Dashboard";
-import Upload from "./pages/Upload/Upload";
-import OCR from "./pages/OCR/OCR";
+import Dashboard from "./pages/dashboard/Dashboard";
+import Upload from "./pages/upload/Upload";
+import OCR from "./pages/ocr/OCR";
 import Detection from "./pages/Detection/Detection";
-import Risk from "./pages/Risk/Risk";
-import Audit from "./pages/Audit/Audit";
-import Reports from "./pages/Reports/Reports";
+import Risk from "./pages/risk/Risk";
+import Audit from "./pages/audit/Audit";
+import Reports from "./pages/reports/Reports";
 import DLPControls from "./pages/DLPControls/DLPControls";
 import AIBehavior from "./pages/AIBehavior/AIBehavior";
 import Forensic from "./pages/Forensic/Forensic";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
-import Unlock from "./pages/unlock/Unlock";
+import Unlock from "./pages/Unlock/unlock";
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated, loading } = useAuth();
