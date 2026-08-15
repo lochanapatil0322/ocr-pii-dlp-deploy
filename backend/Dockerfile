@@ -1,5 +1,5 @@
 # Simple production image for the FastAPI backend
-FROM python:3.11-slim
+FROM python:3.14-slim
 
 # Tesseract is needed for OCR (pytesseract calls the tesseract binary)
 RUN apt-get update && apt-get install -y --no-install-recommends \
