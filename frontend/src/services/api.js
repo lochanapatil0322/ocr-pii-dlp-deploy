@@ -1,4 +1,6 @@
-const API_BASE = '/api';
+import { API_ORIGIN } from '../config';
+
+const API_BASE = `${API_ORIGIN}/api`;
 
 function getToken() {
   return localStorage.getItem('token');
