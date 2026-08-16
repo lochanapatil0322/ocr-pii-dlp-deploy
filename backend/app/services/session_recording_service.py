@@ -1,32 +1,39 @@
 import os
 import uuid
-from datetime import datetime
 
+import cloudinary
+import cloudinary.uploader
 from sqlalchemy.orm import Session
 
 from app.models.session_recording import SessionRecording
 
-RECORDINGS_DIR = os.path.join("uploads", "recordings")
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    secure=True,
+)
 
 
 class SessionRecordingService:
 
-    def __init__(self):
-        os.makedirs(RECORDINGS_DIR, exist_ok=True)
-
     def save_recording(self, db: Session, user: str, document: str, file):
 
         filename = f"{uuid.uuid4().hex}.webm"
-        filepath = os.path.join(RECORDINGS_DIR, filename)
 
-        with open(filepath, "wb") as f:
-            f.write(file.file.read())
+        upload_result = cloudinary.uploader.upload(
+            file.file,
+            resource_type="video",
+            public_id=f"recordings/{filename}",
+            folder="recordings",
+        )
+        permanent_url = upload_result["secure_url"]
 
         entry = SessionRecording(
             user=user,
             document=document,
             filename=filename,
-            url=f"/uploads/recordings/{filename}",
+            url=permanent_url,
         )
         db.add(entry)
         db.commit()

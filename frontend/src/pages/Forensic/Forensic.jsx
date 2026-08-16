@@ -133,7 +133,7 @@ function ForensicPage() {
                 <p className="text-slate-500 text-xs mb-3">
                   {rec.user} · {new Date(rec.recorded_at).toLocaleString()}
                 </p>
-                <video src={`${API_ORIGIN}${rec.url}`} controls className="w-full rounded-lg bg-black" />
+                <video src={rec.url.startsWith('http') ? rec.url : `${API_ORIGIN}${rec.url}`} controls className="w-full rounded-lg bg-black" />
               </div>
             ))}
           </div>
