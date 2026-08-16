@@ -8,6 +8,8 @@ from sqlalchemy.orm import Session
 
 from app.database.database import get_db
 from app.models.document import Document
+from app.models.user import User
+from app.core.security import get_current_user
 
 
 router = APIRouter(
@@ -195,16 +197,23 @@ def get_audit_logs():
 
 
 @router.get("/dashboard")
-def get_dashboard(db: Session = Depends(get_db)):
+def get_dashboard(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    base_query = db.query(Document)
+    if current_user.role != "admin":
+        base_query = base_query.filter(Document.uploaded_by == current_user.email)
+
     return {
         "success": True,
         "dashboard": {
-            "total_documents": db.query(Document).count(),
-            "classified_documents": db.query(Document).filter(Document.classification.isnot(None)).count(),
-            "watermark_detected": db.query(Document).filter(Document.watermark_detected.is_(True)).count(),
-            "tampered_documents": db.query(Document).filter(Document.tampered.is_(True)).count(),
-            "risk_documents": db.query(Document).filter(Document.risk_level.in_(["HIGH", "CRITICAL"])).count(),
-            "expired_documents": db.query(Document).filter(
+            "total_documents": base_query.count(),
+            "classified_documents": base_query.filter(Document.classification.isnot(None)).count(),
+            "watermark_detected": base_query.filter(Document.watermark_detected.is_(True)).count(),
+            "tampered_documents": base_query.filter(Document.tampered.is_(True)).count(),
+            "risk_documents": base_query.filter(Document.risk_level.in_(["HIGH", "CRITICAL"])).count(),
+            "expired_documents": base_query.filter(
                 Document.expiry_date.isnot(None),
                 Document.expiry_date < datetime.utcnow()
             ).count(),
