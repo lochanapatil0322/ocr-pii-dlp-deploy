@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { Card, Message, StatusBadge } from '../../components/common/UI';
 import { forensic } from '../../services/api';
 import { useAuth } from '../../context/AuthContext';
+import { API_ORIGIN } from '../../config';
 
 function ForensicPage() {
   const { user } = useAuth();
@@ -132,7 +133,7 @@ function ForensicPage() {
                 <p className="text-slate-500 text-xs mb-3">
                   {rec.user} · {new Date(rec.recorded_at).toLocaleString()}
                 </p>
-                <video src={rec.url} controls className="w-full rounded-lg bg-black" />
+                <video src={`${API_ORIGIN}${rec.url}`} controls className="w-full rounded-lg bg-black" />
               </div>
             ))}
           </div>
