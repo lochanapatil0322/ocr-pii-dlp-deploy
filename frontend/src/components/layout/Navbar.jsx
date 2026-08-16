@@ -39,7 +39,9 @@ function Navbar() {
             <p className="text-xs font-semibold text-white leading-tight truncate max-w-[180px]">
               {user?.email || 'Admin'}
             </p>
-            <p className="text-[10px] text-slate-500 leading-tight">Administrator</p>
+            <p className="text-[10px] text-slate-500 leading-tight">
+              {user?.role ? user.role.charAt(0).toUpperCase() + user.role.slice(1) : 'User'}
+            </p>
           </div>
         </div>
         <button

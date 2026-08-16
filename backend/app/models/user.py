@@ -7,5 +7,6 @@ class User(Base):
     username = Column(String, unique=True, nullable=False)
     email = Column(String, unique=True, nullable=False)
     password = Column(String, nullable=False)
+    role = Column(String, nullable=False, default="user")
     otp_code = Column(String, nullable=True)
     otp_expiry = Column(DateTime, nullable=True)

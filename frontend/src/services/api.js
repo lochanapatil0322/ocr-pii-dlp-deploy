@@ -66,6 +66,8 @@ export const auth = {
     clearToken();
   },
 
+  getMe: () => apiRequest('/auth/me'),
+
   isAuthenticated: () => !!getToken(),
 
   forgotPassword: (email) =>
