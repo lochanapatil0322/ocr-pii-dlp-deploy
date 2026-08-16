@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from app.services.forensic_service import ForensicService
 from app.services.session_recording_service import SessionRecordingService
 from app.database.database import get_db
+from app.models.user import User
+from app.core.security import get_current_user
 
 
 router = APIRouter(
@@ -25,8 +27,12 @@ def create_record(
 
 
 @router.get("/logs")
-def get_forensic_logs(db: Session = Depends(get_db)):
-    return ForensicService.get_forensic_logs(db)
+def get_forensic_logs(
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    user_filter = None if current_user.role == "admin" else current_user.email
+    return ForensicService.get_forensic_logs(db, user=user_filter)
 
 
 @router.post("/record-session")

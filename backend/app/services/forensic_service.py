@@ -25,8 +25,11 @@ class ForensicService:
         }
 
     @staticmethod
-    def get_forensic_logs(db: Session):
-        logs = db.query(ForensicLog).order_by(ForensicLog.created_at.desc()).all()
+    def get_forensic_logs(db: Session, user: str = None):
+        query = db.query(ForensicLog)
+        if user:
+            query = query.filter(ForensicLog.user == user)
+        logs = query.order_by(ForensicLog.created_at.desc()).all()
 
         return {
             "total_records": len(logs),

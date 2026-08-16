@@ -21,10 +21,12 @@ class AuditService:
         return entry
 
     @staticmethod
-    def get_logs(db: Session, limit: int = 1000, action: str = None):
+    def get_logs(db: Session, limit: int = 1000, action: str = None, user: str = None):
         query = db.query(AuditLog)
         if action:
             query = query.filter(AuditLog.action == action)
+        if user:
+            query = query.filter(AuditLog.user == user)
         return query.order_by(AuditLog.created_at.desc()).limit(limit).all()
 
     @staticmethod
