@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { pii } from '../../services/api';
 import { useDocumentAnalysis } from '../../context/DocumentAnalysisContext';
+import { API_ORIGIN } from '../../config';
 
 function DetectionPage() {
   const { file: sharedFile, report: sharedReport } = useDocumentAnalysis();
@@ -221,7 +222,7 @@ function DetectionPage() {
                 </span>
 
                 <a
-                  href={outputFile.url}
+                  href={outputFile.url.startsWith('http') ? outputFile.url : `${API_ORIGIN}${outputFile.url}`}
                   target="_blank"
                   rel="noreferrer"
                   className="bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold px-4 py-2 rounded-xl transition-colors inline-block"
