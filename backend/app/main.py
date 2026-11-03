@@ -36,6 +36,7 @@ app.add_middleware(
         "http://localhost:3000",
         "https://ocr-pii-dlp-deploy.vercel.app",
     ],
+    allow_origin_regex=r"https://ocr-pii-dlp-deploy.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
